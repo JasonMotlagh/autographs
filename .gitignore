@@ -1,19 +1,23 @@
-# Build and Release Folders
-bin-debug/
-bin-release/
-[Oo]bj/
-[Bb]in/
+# ignore ALL .log files
+*.log
+# ignore ALL .sql files
+*.sql
+# ignore ALL .config files
+*.config
+# ignore ALL .xlsx files
+*.xlsx
+# ignore ALL .bkp files
+*.bkp
+# ignore ALL .drawio files
+*.drawio
+# ignore ALL .json files
+*.json
 
-# Other files and folders
-.settings/
-.SQL/
-
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
-
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+# ignore ALL files in ANY directory named SQL
+SQL/
+# ignore ALL files in ANY directory named flowcharts
+flowcharts/
+# ignore config file
+includes/config.php
+# ignore ALL files in ANY directory named aspnet_client
+aspnet_client/
