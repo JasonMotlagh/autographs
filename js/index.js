@@ -1,3 +1,17 @@
+window.addEventListener('load', () => {
+	console.log("document.ready");
+	if ('IdleDetector' in window) {
+		consoleReporting("IdleDetector supported");
+		const controller = new AbortController();
+		const signal = controller.signal;
+	} else {
+		// Fallback to the event listener approach
+		consoleReporting("IdleDetector NOT supported");
+	}
+
+	getAutographs();
+});
+
 const g_SEARCH_ENTITIES = ["Ø", "°",
 						"\"", "\'",
 						"©", "®", "™",
@@ -13,20 +27,6 @@ const g_REPLACE_ENTITIES = ["&Oslash;", "&deg;",
 						"&apos;", "&mdash;"];
 
 var g_AUTOGRAPH_DATA = [];
-
-window.addEventListener('load', () => {
-	console.log("document.ready");
-	if ('IdleDetector' in window) {
-		consoleReporting("IdleDetector supported");
-		const controller = new AbortController();
-		const signal = controller.signal;
-	} else {
-		// Fallback to the event listener approach
-		consoleReporting("IdleDetector NOT supported");
-	}
-
-	getAutographs();
-});
 
 const buildLocalDateTime = () => {
 	var date = new Date();
@@ -82,9 +82,19 @@ const getAutographs = () => {
 			g_AUTOGRAPH_DATA['Autographs'] = result['autographs'];
 			g_AUTOGRAPH_DATA['Roles'] = result['roles'];
 
-			buildAutographTable();
+			document.getElementById('autograph-role').innerHTML = buildRolesDropdown();
+			document.getElementById('autographs').innerHTML = buildAutographTable();
 		})
 		.catch((error) => console.error("error:", error));
+};
+
+const buildRolesDropdown = () => {
+	var role_length = g_AUTOGRAPH_DATA['Roles'].length;
+	var temp_html = ``;
+	for(i = 0; i < role_length; i++) {
+		temp_html += `<option value="${g_AUTOGRAPH_DATA['Roles'][i].RoleId}">${g_AUTOGRAPH_DATA['Roles'][i].Role}</option>`;
+	};
+	return temp_html;
 };
 
 const buildAutographTable = () => {
@@ -117,5 +127,5 @@ const buildAutographTable = () => {
 					<tr>`
 	};
 	temp_html += `</table>`;
-	document.getElementById('autographs').innerHTML = temp_html;
+	return temp_html;
 };
