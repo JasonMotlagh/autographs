@@ -1,13 +1,13 @@
 window.addEventListener('load', () => {
 	console.log("document.ready");
-	if ('IdleDetector' in window) {
+	/*if ('IdleDetector' in window) {
 		consoleReporting("IdleDetector supported");
 		const controller = new AbortController();
 		const signal = controller.signal;
 	} else {
 		// Fallback to the event listener approach
 		consoleReporting("IdleDetector NOT supported");
-	}
+	}*/
 
 	getAutographs();
 });
@@ -98,34 +98,77 @@ const buildRolesDropdown = () => {
 };
 
 const buildAutographTable = () => {
-	var temp_html = `<table>
-						<tr>
-							<th>Id</th>
-							<th>Date</th>
-							<th>Name</th>
-							<th>Item</th>
-							<th>Event</th>
-							<th>Franchise</th>
-							<th>Char.</th>
-							<th>Role</th>
-							<th>JSA</th>
-							<th>Notes</th>
-						</tr>`;
+	var temp_html = `<div class="header-container table-columns">
+						<!--<p class="header-item">Id</p>-->
+						<p class="header-item">Date</p>
+						<p class="header-item">Name</p>
+						<p class="header-item">Item</p>
+						<p class="header-item">Event</p>
+						<p class="header-item">Franchise</p>
+						<p class="header-item">Char.</p>
+						<p class="header-item">Role</p>
+						<p class="header-item">JSA</p>
+						<p class="header-item">Notes</p>
+					</div>`;
 	var num_autographs = g_AUTOGRAPH_DATA['Autographs'].length;
 	for(i = 0; i < num_autographs; i++) {
-		temp_html += `<tr>
-						<td>${g_AUTOGRAPH_DATA['Autographs'][i].AutographId}</td>
-						<td>${g_AUTOGRAPH_DATA['Autographs'][i].AutographDate}</td>
-						<td>${g_AUTOGRAPH_DATA['Autographs'][i].CelebrityLastName}, ${g_AUTOGRAPH_DATA['Autographs'][i].CelebrityFirstName}</td>
-						<td>${g_AUTOGRAPH_DATA['Autographs'][i].Item}</td>
-						<td>${g_AUTOGRAPH_DATA['Autographs'][i].Event}</td>
-						<td>${g_AUTOGRAPH_DATA['Autographs'][i].Franchise}</td>
-						<td>${g_AUTOGRAPH_DATA['Autographs'][i].CelebrityCharacter}</td>
-						<td>${g_AUTOGRAPH_DATA['Autographs'][i].Role}</td>
-						<td>${g_AUTOGRAPH_DATA['Autographs'][i].JSANumber}</td>
-						<td>${g_AUTOGRAPH_DATA['Autographs'][i].Notes}</td>
-					<tr>`
+		temp_html += `<div class="table-item-container table-columns" data-id="${g_AUTOGRAPH_DATA['Autographs'][i].AutographId}">
+						<!--<p class="table-item">${g_AUTOGRAPH_DATA['Autographs'][i].AutographId}</p>-->
+						<p class="table-item">${g_AUTOGRAPH_DATA['Autographs'][i].AutographDate}</p>
+						<p class="table-item">${g_AUTOGRAPH_DATA['Autographs'][i].CelebrityLastName}, ${g_AUTOGRAPH_DATA['Autographs'][i].CelebrityFirstName}</p>
+						<p class="table-item">${g_AUTOGRAPH_DATA['Autographs'][i].Item}</p>
+						<p class="table-item">${g_AUTOGRAPH_DATA['Autographs'][i].Event}</p>
+						<p class="table-item">${g_AUTOGRAPH_DATA['Autographs'][i].Franchise}</p>
+						<p class="table-item">${g_AUTOGRAPH_DATA['Autographs'][i].CelebrityCharacter}</p>
+						<p class="table-item">${g_AUTOGRAPH_DATA['Autographs'][i].Role}</p>
+						<p class="table-item">${g_AUTOGRAPH_DATA['Autographs'][i].JSANumber}</p>
+						<p class="table-item">${g_AUTOGRAPH_DATA['Autographs'][i].Notes}</p>
+					</div>`
 	};
-	temp_html += `</table>`;
 	return temp_html;
+};
+
+const addNewAutograph = () => {
+	console.log("addNewAutograph() called");
+
+	const formData = new FormData();
+	formData.append( 'cur_date', buildLocalDateTime() );
+	formData.append( 'aut_date', document.getElementById('autograph-date').value );
+	formData.append( 'aut_fname', document.getElementById('autograph-fname').value );
+	formData.append( 'aut_lname', document.getElementById('autograph-lname').value );
+	formData.append( 'aut_item', document.getElementById('autograph-item').value );
+	formData.append( 'aut_event', document.getElementById('autograph-event').value );
+	formData.append( 'aut_franchise', document.getElementById('autograph-franchise').value );
+	formData.append( 'aut_character', document.getElementById('autograph-character').value );
+	formData.append( 'aut_role', document.getElementById('autograph-role').value );
+	formData.append( 'aut_jsa', document.getElementById('autograph-jsa').value );
+	formData.append( 'aut_notes', document.getElementById('autograph-notes').value );
+
+	const requestOptions = {
+		method: "POST",
+		body: formData
+	};
+
+	fetch('./includes/addAutograph.php', requestOptions)
+		.then((response) => response.json())
+		.then((result) => {
+			g_AUTOGRAPH_DATA['Autographs'] = [];
+			g_AUTOGRAPH_DATA['Roles'] = [];
+			g_AUTOGRAPH_DATA['Autographs'] = result['autographs'];
+			g_AUTOGRAPH_DATA['Roles'] = result['roles'];
+
+			document.getElementById('autograph-date').value = '';
+			document.getElementById('autograph-fname').value = '';
+			document.getElementById('autograph-lname').value = '';
+			document.getElementById('autograph-item').value = '';
+			document.getElementById('autograph-event').value = '';
+			document.getElementById('autograph-franchise').value = '';
+			document.getElementById('autograph-character').value = '';
+			document.getElementById('autograph-jsa').value = '';
+			document.getElementById('autograph-notes').value = '';
+
+			document.getElementById('autograph-role').innerHTML = buildRolesDropdown();
+			document.getElementById('autographs').innerHTML = buildAutographTable();
+		})
+		.catch((error) => console.error("error:", error));
 };

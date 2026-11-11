@@ -13,7 +13,7 @@
 	$sql = "SELECT aut.AutographId, aut.AutographDate, aut.CelebrityFirstName, aut.CelebrityLastName, aut.Item, aut.Event, aut.Franchise, aut.CelebrityCharacter, rol.Role, aut.RoleId, aut.JSANumber, aut.Notes
 			FROM Autographs AS aut
 				INNER JOIN Roles AS rol ON rol.RoleId = aut.RoleId
-			ORDER BY aut.AutographId ASC";
+			ORDER BY aut.AutographDate DESC, aut.CelebrityLastName ASC";
 	$stmt = $conn->prepare($sql);
 	$stmt->execute();
 	$res = $stmt->get_result();

@@ -4,11 +4,14 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Autographs</title>
+	<!-- Custom CSS -->
+	<link rel="stylesheet" href="css/index.css">
+
 </head>
 <body>
 	<app>
-		<div id="new-autograph-container">
-			<form id="new-autograph-form">
+		<div id="new-autograph-container" class="new-autograph-container">
+			<!--<form id="new-autograph-form">-->
 				<label for="autograph-date">Date</label>
 				<input id="autograph-date" name="autograph-date" type="date">
 
@@ -40,9 +43,9 @@
 				<textarea id="autograph-notes" name="autograph-notes" rows="3" cols="30"></textarea>
 
 				<button type="button" onclick="addNewAutograph()">Add</button>
-			</form>
+			<!--</form>-->
 		</div>
-		<div id="autographs"></div>
+		<div id="autographs" class="autographs-container"></div>
 	</app>
 	<script src="js/index.js"></script>
 </body>

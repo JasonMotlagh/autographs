@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Signika:wght@300;400;700&display=swap');
+
+*, *::before, *::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	font-family: "Signika";
+	/*font-family: Arial, Helvetica, Verdana, sans-serif;*/
+	/*font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', system-ui, sans-serif;*/
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+/* Sizing */
+	--quarter-rem: .25rem;
+	--half-rem: .5rem;
+	--three-quarter-rem: .75rem;
+	--full-rem: 1rem;
+	--full-quarter-rem: 1.25rem;
+	--full-half-rem: 1.5rem;
+}
+
+body {
+	background-color: var(--color-page-background);
+	font-size: var(--full-rem);
+	font-family: "Signika";
+}
+body:has(dialog[open]) {
+	overflow: hidden;
+}
+
+.autographs-container {
+	margin-inline: var(--full-quarter-rem);
+}
+.new-autograph-container {
+	margin-inline: var(--full-quarter-rem);
+	margin-block-end: var(--full-half-rem);
+}
+.table-columns {
+	display: grid;
+	/*grid-template-columns: .25fr .75fr 1fr 1fr .5fr 1fr 1fr .75fr .75fr 2fr;*/
+	grid-template-columns: .75fr 1fr 1fr .5fr 1fr 1fr .75fr .75fr 2fr;
+}
+.header-container {
+	
+}
+.header-item {
+	font-weight: 600;
+	font-size: calc(var(--full-rem) * 1.125);
+	text-decoration: underline;
+}
+
+.table-item-container {
+	margin-block-end: var(--three-quarter-rem);
+	border-bottom: 1px black solid;
+}
+.teble-item {
+
+}
